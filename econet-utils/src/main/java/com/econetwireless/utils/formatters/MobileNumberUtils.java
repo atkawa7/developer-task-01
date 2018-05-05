@@ -87,9 +87,7 @@ public class MobileNumberUtils {
         try {
             return formatMobileNumber(initiatorMobileNumber).equalsIgnoreCase(formatMobileNumber(beneficiaryMobileNumber));
         } catch (InvalidMobileNumberException e) {
-            if(LOGGER.isDebugEnabled()) {
-                LOGGER.error("Error Checking Initiator if Same with beneficiary : ", e);
-            }
+            LOGGER.error("Error Checking Initiator if Same with beneficiary : ", e);
             return false;
         }
     }

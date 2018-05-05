@@ -7,14 +7,17 @@ import com.econetwireless.utils.formatters.MobileNumberUtils;
 import com.econetwireless.utils.messages.AirtimeBalanceResponse;
 import com.econetwireless.utils.messages.AirtimeTopupRequest;
 import com.econetwireless.utils.messages.AirtimeTopupResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by tnyamakura on 18/3/2017.
  */
 public class EpayRequestProcessorImpl implements EpayRequestProcessor{
+    private static final Logger LOGGER  = LoggerFactory.getLogger(EpayRequestProcessorImpl.class);
 
-    private EnquiriesService enquiriesService;
-    private CreditsService creditsService;
+    private final EnquiriesService enquiriesService;
+    private final CreditsService creditsService;
 
     public EpayRequestProcessorImpl(EnquiriesService enquiriesService, CreditsService creditsService) {
         this.enquiriesService = enquiriesService;

@@ -31,12 +31,14 @@ public class EnquiriesServiceImpl implements EnquiriesService {
     @Override
     public AirtimeBalanceResponse enquire(final String partnerCode, final String msisdn) {
         LOGGER.info("Enquire airtime balance :: Partner Code : {}, Msisdn : {}", partnerCode, msisdn);
-        final AirtimeBalanceResponse airtimeBalanceResponse = new AirtimeBalanceResponse();
+
         final SubscriberRequest subscriberRequest = populate(partnerCode, msisdn);
         final SubscriberRequest createdSubscriberRequest = subscriberRequestDao.save(subscriberRequest);
         final INBalanceResponse inBalanceResponse = chargingPlatform.enquireBalance(partnerCode, msisdn);
         changeSubscriberStateOnBalanceEnquiry(createdSubscriberRequest, inBalanceResponse);
         subscriberRequestDao.save(createdSubscriberRequest);
+
+        final AirtimeBalanceResponse airtimeBalanceResponse = new AirtimeBalanceResponse();
         airtimeBalanceResponse.setResponseCode(inBalanceResponse.getResponseCode());
         airtimeBalanceResponse.setNarrative(inBalanceResponse.getNarrative());
         airtimeBalanceResponse.setMsisdn(msisdn);
