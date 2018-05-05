@@ -4,6 +4,7 @@ import com.econetwireless.epay.api.processors.api.EpayRequestProcessor;
 import com.econetwireless.epay.api.processors.api.ReportingProcessor;
 import com.econetwireless.epay.api.processors.impl.EpayRequestProcessorImpl;
 import com.econetwireless.epay.api.processors.impl.ReportingProcessorImpl;
+import com.econetwireless.epay.api.rest.resources.EpayResource;
 import com.econetwireless.epay.business.services.api.CreditsService;
 import com.econetwireless.epay.business.services.api.EnquiriesService;
 import com.econetwireless.epay.business.services.api.ReportingService;
@@ -32,6 +33,11 @@ public class EpayApiWebConfig {
         @Bean
         public ReportingProcessor reportingProcessor(final ReportingService reportingService) {
                 return new ReportingProcessorImpl(reportingService);
+        }
+
+        @Bean
+        public EpayResource epayResource(EpayRequestProcessor epayRequestProcessor, ReportingProcessor reportingProcessor){
+                return new EpayResource(epayRequestProcessor, reportingProcessor);
         }
 
 
