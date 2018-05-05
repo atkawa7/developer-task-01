@@ -34,10 +34,19 @@
         <hsqldb.version>1.8.0.10</hsqldb.version>
         <jta.version>1.1</jta.version>
         <json-path.version>2.2.0</json-path.version>
+        <jacoco-maven-plugin.version>0.8.1</jacoco-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+
+            <!-- code coverage -->
+            <dependency>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco-maven-plugin.version}</version>
+            </dependency>
+
 
             <!-- Spring -->
             <dependency>
