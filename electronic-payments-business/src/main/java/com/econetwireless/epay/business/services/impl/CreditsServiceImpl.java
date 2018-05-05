@@ -33,22 +33,42 @@ public class CreditsServiceImpl implements CreditsService{
     @Override
     public AirtimeTopupResponse credit(final AirtimeTopupRequest airtimeTopupRequest) {
         LOGGER.info("Credit airtime Request : {}", airtimeTopupRequest);
-        final AirtimeTopupResponse airtimeTopupResponse = new AirtimeTopupResponse();
+
+
         final SubscriberRequest subscriberRequest = populateSubscriberRequest(airtimeTopupRequest);
+
+        LOGGER.info("Credit SubscriberRequest: START {}", subscriberRequest);
+
         final SubscriberRequest createdSubscriberRequest = subscriberRequestDao.save(subscriberRequest);
-        final INCreditResponse inCreditResponse = chargingPlatform.creditSubscriberAccount(populate(airtimeTopupRequest));
+
+        LOGGER.info("Credit SubscriberRequest: END {}", createdSubscriberRequest);
+
+
+        final INCreditRequest inCreditRequest = populate(airtimeTopupRequest);
+
+        LOGGER.info("Credit INCreditResponse: END {}", inCreditRequest);
+
+        final INCreditResponse inCreditResponse = chargingPlatform.creditSubscriberAccount(inCreditRequest);
+
+        LOGGER.info("Credit INCreditResponse: END {}", inCreditResponse);
+
         changeSubscriberRequestStatusOnCredit(createdSubscriberRequest, inCreditResponse);
+
         subscriberRequestDao.save(createdSubscriberRequest);
+
+        final AirtimeTopupResponse airtimeTopupResponse = new AirtimeTopupResponse();
         airtimeTopupResponse.setResponseCode(inCreditResponse.getResponseCode());
         airtimeTopupResponse.setNarrative(inCreditResponse.getNarrative());
         airtimeTopupResponse.setMsisdn(airtimeTopupRequest.getMsisdn());
         airtimeTopupResponse.setBalance(inCreditResponse.getBalance());
+
         LOGGER.info("Finished Airtime Credit :: Msisdn : {}, response code : {}", airtimeTopupRequest.getMsisdn(), inCreditResponse.getResponseCode());
         return airtimeTopupResponse;
     }
 
     private static void changeSubscriberRequestStatusOnCredit(final SubscriberRequest subscriberRequest, final INCreditResponse inCreditResponse) {
-        final boolean isSuccessfulResponse = ResponseCode.SUCCESS.getCode().equalsIgnoreCase(inCreditResponse.getResponseCode());
+        LOGGER.info("SubscriberRequest: {}, INCreditResponse : {}", subscriberRequest, inCreditResponse);
+        final boolean isSuccessfulResponse = inCreditResponse.getResponseCode()!=null && ResponseCode.SUCCESS.getCode().equalsIgnoreCase(inCreditResponse.getResponseCode());
         if(!isSuccessfulResponse) {
             subscriberRequest.setStatus(SystemConstants.STATUS_FAILED);
         } else {
