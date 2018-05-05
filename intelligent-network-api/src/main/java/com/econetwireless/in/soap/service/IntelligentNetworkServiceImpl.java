@@ -49,12 +49,16 @@ public class IntelligentNetworkServiceImpl implements IntelligentNetworkService{
         if(creditRequest == null) {
             creditResponse.setResponseCode(ResponseCode.FAILED.getCode());
             creditResponse.setNarrative("Invalid request, empty credit request");
+            LOGGER.info("creditSubscriberAccount:  {}", creditResponse);
             return creditResponse;
         }
+
         creditResponse.setMsisdn(creditRequest.getMsisdn());
         creditResponse.setBalance(creditRequest.getAmount() + getRandomBalance());
         creditResponse.setNarrative("Successful credit request");
         creditResponse.setResponseCode(ResponseCode.SUCCESS.getCode());
+
+        LOGGER.info("creditSubscriberAccount:  {} : {}", creditResponse, creditRequest);
         return creditResponse;
     }
 
