@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by tnyamakura on 17/3/2017.
  */
 @Transactional
-public class CreditsServiceImpl implements CreditsService{
+public class CreditsServiceImpl implements CreditsService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CreditsServiceImpl.class);
 
@@ -28,6 +28,37 @@ public class CreditsServiceImpl implements CreditsService{
     public CreditsServiceImpl(ChargingPlatform chargingPlatform, SubscriberRequestDao subscriberRequestDao) {
         this.chargingPlatform = chargingPlatform;
         this.subscriberRequestDao = subscriberRequestDao;
+    }
+
+    private static void changeSubscriberRequestStatusOnCredit(final SubscriberRequest subscriberRequest, final INCreditResponse inCreditResponse) {
+        LOGGER.info("SubscriberRequest: {}, INCreditResponse : {}", subscriberRequest, inCreditResponse);
+        final boolean isSuccessfulResponse = inCreditResponse.getResponseCode() != null && ResponseCode.SUCCESS.getCode().equalsIgnoreCase(inCreditResponse.getResponseCode());
+        if (!isSuccessfulResponse) {
+            subscriberRequest.setStatus(SystemConstants.STATUS_FAILED);
+        } else {
+            subscriberRequest.setStatus(SystemConstants.STATUS_SUCCESSFUL);
+            subscriberRequest.setBalanceAfter(inCreditResponse.getBalance());
+            subscriberRequest.setBalanceBefore(inCreditResponse.getBalance() - subscriberRequest.getAmount());
+        }
+    }
+
+    private static SubscriberRequest populateSubscriberRequest(final AirtimeTopupRequest airtimeTopupRequest) {
+        final SubscriberRequest subscriberRequest = new SubscriberRequest();
+        subscriberRequest.setRequestType(SystemConstants.REQUEST_TYPE_AIRTIME_TOPUP);
+        subscriberRequest.setPartnerCode(airtimeTopupRequest.getPartnerCode());
+        subscriberRequest.setMsisdn(airtimeTopupRequest.getMsisdn());
+        subscriberRequest.setReference(airtimeTopupRequest.getReferenceNumber());
+        subscriberRequest.setAmount(airtimeTopupRequest.getAmount());
+        return subscriberRequest;
+    }
+
+    private static INCreditRequest populate(final AirtimeTopupRequest airtimeTopupRequest) {
+        final INCreditRequest inCreditRequest = new INCreditRequest();
+        inCreditRequest.setAmount(airtimeTopupRequest.getAmount());
+        inCreditRequest.setMsisdn(airtimeTopupRequest.getMsisdn());
+        inCreditRequest.setPartnerCode(airtimeTopupRequest.getPartnerCode());
+        inCreditRequest.setReferenceNumber(airtimeTopupRequest.getReferenceNumber());
+        return inCreditRequest;
     }
 
     @Override
@@ -64,35 +95,6 @@ public class CreditsServiceImpl implements CreditsService{
 
         LOGGER.info("Finished Airtime Credit :: Msisdn : {}, response code : {}", airtimeTopupRequest.getMsisdn(), inCreditResponse.getResponseCode());
         return airtimeTopupResponse;
-    }
-
-    private static void changeSubscriberRequestStatusOnCredit(final SubscriberRequest subscriberRequest, final INCreditResponse inCreditResponse) {
-        LOGGER.info("SubscriberRequest: {}, INCreditResponse : {}", subscriberRequest, inCreditResponse);
-        final boolean isSuccessfulResponse = inCreditResponse.getResponseCode()!=null && ResponseCode.SUCCESS.getCode().equalsIgnoreCase(inCreditResponse.getResponseCode());
-        if(!isSuccessfulResponse) {
-            subscriberRequest.setStatus(SystemConstants.STATUS_FAILED);
-        } else {
-            subscriberRequest.setStatus(SystemConstants.STATUS_SUCCESSFUL);
-            subscriberRequest.setBalanceAfter(inCreditResponse.getBalance());
-            subscriberRequest.setBalanceBefore(inCreditResponse.getBalance() - subscriberRequest.getAmount());
-        }
-    }
-    private static SubscriberRequest populateSubscriberRequest(final AirtimeTopupRequest airtimeTopupRequest) {
-        final SubscriberRequest subscriberRequest = new SubscriberRequest();
-        subscriberRequest.setRequestType(SystemConstants.REQUEST_TYPE_AIRTIME_TOPUP);
-        subscriberRequest.setPartnerCode(airtimeTopupRequest.getPartnerCode());
-        subscriberRequest.setMsisdn(airtimeTopupRequest.getMsisdn());
-        subscriberRequest.setReference(airtimeTopupRequest.getReferenceNumber());
-        subscriberRequest.setAmount(airtimeTopupRequest.getAmount());
-        return subscriberRequest;
-    }
-    private static INCreditRequest populate(final AirtimeTopupRequest airtimeTopupRequest) {
-        final INCreditRequest inCreditRequest = new INCreditRequest();
-        inCreditRequest.setAmount(airtimeTopupRequest.getAmount());
-        inCreditRequest.setMsisdn(airtimeTopupRequest.getMsisdn());
-        inCreditRequest.setPartnerCode(airtimeTopupRequest.getPartnerCode());
-        inCreditRequest.setReferenceNumber(airtimeTopupRequest.getReferenceNumber());
-        return inCreditRequest;
     }
 
 }

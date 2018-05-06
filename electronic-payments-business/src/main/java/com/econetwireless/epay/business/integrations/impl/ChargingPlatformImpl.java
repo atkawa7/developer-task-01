@@ -11,7 +11,7 @@ import com.econetwireless.utils.pojo.INCreditResponse;
 /**
  * Created by tnyamakura on 17/3/2017.
  */
-public class ChargingPlatformImpl implements ChargingPlatform{
+public class ChargingPlatformImpl implements ChargingPlatform {
 
     private IntelligentNetworkService intelligentNetworkService;
 

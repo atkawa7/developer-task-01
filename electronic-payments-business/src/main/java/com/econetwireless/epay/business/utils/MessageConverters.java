@@ -17,10 +17,10 @@ public class MessageConverters {
     }
 
     public static CreditRequest convert(final INCreditRequest inCreditRequest) {
-        if(inCreditRequest == null) {
+        if (inCreditRequest == null) {
             return null;
         }
-        final CreditRequest  creditRequest = new CreditRequest();
+        final CreditRequest creditRequest = new CreditRequest();
         creditRequest.setMsisdn(inCreditRequest.getMsisdn());
         creditRequest.setAmount(inCreditRequest.getAmount());
         creditRequest.setPartnerCode(inCreditRequest.getPartnerCode());
@@ -29,10 +29,10 @@ public class MessageConverters {
     }
 
     public static INCreditRequest convert(final CreditRequest creditRequest) {
-        if(creditRequest == null) {
+        if (creditRequest == null) {
             return null;
         }
-        final INCreditRequest  inCreditRequest = new INCreditRequest();
+        final INCreditRequest inCreditRequest = new INCreditRequest();
         inCreditRequest.setMsisdn(creditRequest.getMsisdn());
         inCreditRequest.setAmount(creditRequest.getAmount());
         inCreditRequest.setPartnerCode(creditRequest.getPartnerCode());
@@ -41,10 +41,10 @@ public class MessageConverters {
     }
 
     public static CreditResponse convert(final INCreditResponse inCreditResponse) {
-        if(inCreditResponse == null) {
+        if (inCreditResponse == null) {
             return null;
         }
-        final CreditResponse  creditResponse = new CreditResponse();
+        final CreditResponse creditResponse = new CreditResponse();
         creditResponse.setNarrative(inCreditResponse.getNarrative());
         creditResponse.setMsisdn(inCreditResponse.getMsisdn());
         creditResponse.setBalance(inCreditResponse.getBalance());
@@ -53,10 +53,10 @@ public class MessageConverters {
     }
 
     public static INCreditResponse convert(final CreditResponse creditResponse) {
-        if(creditResponse == null) {
+        if (creditResponse == null) {
             return null;
         }
-        final INCreditResponse  inCreditResponse = new INCreditResponse();
+        final INCreditResponse inCreditResponse = new INCreditResponse();
         inCreditResponse.setNarrative(creditResponse.getNarrative());
         inCreditResponse.setMsisdn(creditResponse.getMsisdn());
         inCreditResponse.setBalance(creditResponse.getBalance());
@@ -65,10 +65,10 @@ public class MessageConverters {
     }
 
     public static BalanceResponse convert(final INBalanceResponse inBalanceResponse) {
-        if(inBalanceResponse == null) {
+        if (inBalanceResponse == null) {
             return null;
         }
-        final BalanceResponse  balanceResponse = new BalanceResponse();
+        final BalanceResponse balanceResponse = new BalanceResponse();
         balanceResponse.setNarrative(inBalanceResponse.getNarrative());
         balanceResponse.setMsisdn(inBalanceResponse.getMsisdn());
         balanceResponse.setAmount(inBalanceResponse.getAmount());
@@ -77,10 +77,10 @@ public class MessageConverters {
     }
 
     public static INBalanceResponse convert(final BalanceResponse balanceResponse) {
-        if(balanceResponse == null) {
+        if (balanceResponse == null) {
             return null;
         }
-        final INBalanceResponse  inBalanceResponse = new INBalanceResponse();
+        final INBalanceResponse inBalanceResponse = new INBalanceResponse();
         inBalanceResponse.setNarrative(balanceResponse.getNarrative());
         inBalanceResponse.setMsisdn(balanceResponse.getMsisdn());
         inBalanceResponse.setAmount(balanceResponse.getAmount());

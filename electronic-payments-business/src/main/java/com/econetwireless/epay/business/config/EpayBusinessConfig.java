@@ -9,15 +9,19 @@ import com.econetwireless.epay.business.services.impl.CreditsServiceImpl;
 import com.econetwireless.epay.business.services.impl.EnquiriesServiceImpl;
 import com.econetwireless.epay.business.services.impl.PartnerCodeValidatorImpl;
 import com.econetwireless.epay.business.services.impl.ReportingServiceImpl;
+import com.econetwireless.epay.dao.config.DaoConfiguration;
 import com.econetwireless.epay.dao.requestpartner.api.RequestPartnerDao;
 import com.econetwireless.epay.dao.subscriberrequest.api.SubscriberRequestDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.core.env.Environment;
 
 /**
  * Created by tnyamakura on 17/3/2017.
  */
 @Configuration
+@Import({DaoConfiguration.class, IntegrationsConfig.class})
 public class EpayBusinessConfig {
 
     @Bean
@@ -37,6 +41,7 @@ public class EpayBusinessConfig {
 
     @Bean
     public PartnerCodeValidator partnerCodeValidator(final RequestPartnerDao requestPartnerDao) {
-        return  new PartnerCodeValidatorImpl(requestPartnerDao);
+        return new PartnerCodeValidatorImpl(requestPartnerDao);
     }
+
 }

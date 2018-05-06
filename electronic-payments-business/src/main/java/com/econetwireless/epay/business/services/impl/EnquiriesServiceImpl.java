@@ -28,6 +28,25 @@ public class EnquiriesServiceImpl implements EnquiriesService {
         this.subscriberRequestDao = subscriberRequestDao;
     }
 
+    private static void changeSubscriberStateOnBalanceEnquiry(final SubscriberRequest subscriberRequest, final INBalanceResponse inBalanceResponse) {
+        final boolean isSuccessfulResponse = inBalanceResponse.getResponseCode() != null && ResponseCode.SUCCESS.getCode().equalsIgnoreCase(inBalanceResponse.getResponseCode());
+        if (!isSuccessfulResponse) {
+            subscriberRequest.setStatus(SystemConstants.STATUS_FAILED);
+        } else {
+            subscriberRequest.setStatus(SystemConstants.STATUS_SUCCESSFUL);
+            subscriberRequest.setBalanceAfter(inBalanceResponse.getAmount());
+            subscriberRequest.setBalanceBefore(inBalanceResponse.getAmount());
+        }
+    }
+
+    private static SubscriberRequest populate(final String partnerCode, final String msisdn) {
+        final SubscriberRequest subscriberRequest = new SubscriberRequest();
+        subscriberRequest.setRequestType(SystemConstants.REQUEST_TYPE_AIRTIME_BALANCE_ENQUIRY);
+        subscriberRequest.setPartnerCode(partnerCode);
+        subscriberRequest.setMsisdn(msisdn);
+        return subscriberRequest;
+    }
+
     @Override
     public AirtimeBalanceResponse enquire(final String partnerCode, final String msisdn) {
         LOGGER.info("Enquire airtime balance :: Partner Code : {}, Msisdn : {}", partnerCode, msisdn);
@@ -45,24 +64,6 @@ public class EnquiriesServiceImpl implements EnquiriesService {
         airtimeBalanceResponse.setAmount(inBalanceResponse.getAmount());
         LOGGER.info("Finished balance enquiry :: Msisdn : {}, response code : {}", msisdn, inBalanceResponse.getResponseCode());
         return airtimeBalanceResponse;
-    }
-
-    private static void changeSubscriberStateOnBalanceEnquiry(final SubscriberRequest subscriberRequest, final INBalanceResponse inBalanceResponse) {
-        final boolean isSuccessfulResponse = inBalanceResponse.getResponseCode()!=null&&ResponseCode.SUCCESS.getCode().equalsIgnoreCase(inBalanceResponse.getResponseCode());
-        if(!isSuccessfulResponse) {
-            subscriberRequest.setStatus(SystemConstants.STATUS_FAILED);
-        } else {
-            subscriberRequest.setStatus(SystemConstants.STATUS_SUCCESSFUL);
-            subscriberRequest.setBalanceAfter(inBalanceResponse.getAmount());
-            subscriberRequest.setBalanceBefore(inBalanceResponse.getAmount());
-        }
-    }
-    private static SubscriberRequest populate(final String partnerCode, final String msisdn) {
-        final SubscriberRequest subscriberRequest = new SubscriberRequest();
-        subscriberRequest.setRequestType(SystemConstants.REQUEST_TYPE_AIRTIME_BALANCE_ENQUIRY);
-        subscriberRequest.setPartnerCode(partnerCode);
-        subscriberRequest.setMsisdn(msisdn);
-        return  subscriberRequest;
     }
 
 }

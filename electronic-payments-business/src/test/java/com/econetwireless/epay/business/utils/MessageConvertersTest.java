@@ -110,6 +110,7 @@ public class MessageConvertersTest {
         assertEquals(expected.getResponseCode(), actual.getResponseCode());
 
     }
+
     @Test
     public void convertNullBalanceResponseToINBalanceResponseShouldReturnNull() {
         INBalanceResponse actual = MessageConverters.convert((BalanceResponse) null);

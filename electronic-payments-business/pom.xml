@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>intelligent-network-parent</artifactId>
@@ -44,32 +44,36 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+            <version>${jta.version}</version>
         </dependency>
     </dependencies>
     <build>
         <plugins>
             <plugin>
-            <groupId>org.jvnet.jax-ws-commons</groupId>
-            <artifactId>jaxws-maven-plugin</artifactId>
-            <executions>
-            <execution>
-                <id>intelligent-network-service</id>
-                <goals>
-                    <goal>wsimport</goal>
-                </goals>
-                <configuration>
-                    <vmArgs>
-                        <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
-                    </vmArgs>
-                    <extension>true</extension>
-                    <wsdlDirectory>${basedir}/src/main/resources/wsdls</wsdlDirectory>
-                    <sourceDestDir>${project.build.directory}/generated-sources/main/java</sourceDestDir>
-                    <packageName>com.econetwireless.in.webservice</packageName>
-                </configuration>
-            </execution>
-            </executions>
+                <groupId>org.jvnet.jax-ws-commons</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>intelligent-network-service</id>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <extension>true</extension>
+                            <wsdlDirectory>${basedir}/src/main/resources/wsdls</wsdlDirectory>
+                            <sourceDestDir>${project.build.directory}/generated-sources/main/java</sourceDestDir>
+                            <packageName>com.econetwireless.in.webservice</packageName>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>

@@ -24,7 +24,8 @@ public class IntegrationsConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(IntegrationsConfig.class);
 
     @Autowired
-    private Environment env;
+    private  Environment env;
+
 
     @Bean
     public ChargingPlatform chargingPlatform(final IntelligentNetworkService intelligentNetworkService) {
@@ -35,7 +36,7 @@ public class IntegrationsConfig {
     public JaxWsPortProxyFactoryBean intelligentNetworkService() {
         final JaxWsPortProxyFactoryBean proxyFactoryBean = new JaxWsPortProxyFactoryBean();
         try {
-            if(env == null) {
+            if (env == null) {
                 return proxyFactoryBean;
             }
             final Class<?> serviceInterface = Class.forName(env.getProperty("configs.econetwebservice.ws.serviceInterface"));
@@ -49,10 +50,14 @@ public class IntegrationsConfig {
             proxyFactoryBean.setEndpointAddress(env.getProperty("configs.econetwebservice.ws.endpoint.address"));
             proxyFactoryBean.setLookupServiceOnStartup(false);
             return proxyFactoryBean;
-        }  catch (Exception e) {
+        } catch (Exception e) {
             LOGGER.error("Error Creating intelligentNetworkService : ", e);
             return null;
         }
+    }
+
+    public Environment getEnv() {
+        return env;
     }
 
 }
