@@ -12,7 +12,8 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class IntegrationsConfigTest {
     private static final String NAMESPACE_KEY = "configs.econetwebservice.ws.namespace";

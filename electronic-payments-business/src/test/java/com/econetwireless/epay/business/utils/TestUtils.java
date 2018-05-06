@@ -1,5 +1,7 @@
 package com.econetwireless.epay.business.utils;
 
+import com.econetwireless.epay.domain.RequestPartner;
+import com.econetwireless.epay.domain.SubscriberRequest;
 import com.econetwireless.in.webservice.BalanceResponse;
 import com.econetwireless.in.webservice.CreditRequest;
 import com.econetwireless.in.webservice.CreditResponse;
@@ -10,11 +12,84 @@ import org.apache.commons.lang3.StringUtils;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import java.util.Date;
+import java.util.Random;
+import java.util.UUID;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class TestUtils {
     public static final Double BALANCE = 100.0;
+
+    public static final Answer<RequestPartner> REQUEST_PARTNER_ANSWER = new Answer<RequestPartner>() {
+        @Override
+        public RequestPartner answer(InvocationOnMock invocation) throws Throwable {
+            Object[] arguments = invocation.getArguments();
+            if (arguments != null && arguments.length > 0) {
+                String partnerCode = (String) arguments[0];
+                if (partnerCode != null) {
+                    RequestPartner partner = new RequestPartner();
+                    partner.setCode(partnerCode);
+                    partner.setName(UUID.randomUUID().toString());
+                    partner.setDescription("description");
+                    partner.setId(new Random().nextLong());
+                    return partner;
+                }
+                return null;
+            }
+            return null;
+        }
+    };
+
+    public final static Answer<SubscriberRequest> SUBSCRIBER_REQUEST_ANSWER = new Answer<SubscriberRequest>() {
+        @Override
+        public SubscriberRequest answer(InvocationOnMock invocation) throws Throwable {
+            Object[] arguments = invocation.getArguments();
+            if (arguments != null && arguments.length > 0) {
+                SubscriberRequest request = (SubscriberRequest) arguments[0];
+                if (request == null) return null;
+                if (request.getId() == null) {
+                    request.setId(new Random().nextLong());
+                }
+                if (request.getDateCreated() == null) {
+                    request.setDateCreated(new Date());
+                }
+                request.setDateLastUpdated(new Date());
+                return request;
+            }
+            return null;
+        }
+    };
+
+    public final static Answer<INBalanceResponse> SUCCESSFUL_BALANCE_ENQUIRY = new Answer<INBalanceResponse>() {
+        @Override
+        public INBalanceResponse answer(InvocationOnMock invocation) throws Throwable {
+            Object[] arguments = invocation.getArguments();
+            if (arguments != null && arguments.length > 1) {
+                String partnerCode = (String) arguments[0];
+                String msisdn = (String) arguments[1];
+                INBalanceResponse balanceResponse = new INBalanceResponse();
+                if (StringUtils.isEmpty(partnerCode)) {
+                    balanceResponse.setResponseCode(ResponseCode.INVALID_REQUEST.getCode());
+                    balanceResponse.setNarrative("Invalid request, missing partner code");
+                    return balanceResponse;
+                }
+                if (StringUtils.isEmpty(msisdn)) {
+                    balanceResponse.setResponseCode(ResponseCode.INVALID_REQUEST.getCode());
+                    balanceResponse.setNarrative("Invalid request, missing mobile number");
+                    return balanceResponse;
+                }
+                balanceResponse.setMsisdn(msisdn);
+                balanceResponse.setAmount(100);
+                balanceResponse.setNarrative("Successful balance enquiry");
+                balanceResponse.setResponseCode(ResponseCode.SUCCESS.getCode());
+                return balanceResponse;
+            }
+            return null;
+        }
+    };
+
     public final static Answer<BalanceResponse> BALANCE_RESPONSE_ANSWER = new Answer<BalanceResponse>() {
         @Override
         public BalanceResponse answer(InvocationOnMock invocation) throws Throwable {
