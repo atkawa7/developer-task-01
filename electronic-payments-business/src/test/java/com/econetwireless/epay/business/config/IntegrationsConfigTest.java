@@ -1,7 +1,5 @@
-package com.econetwireless.epay.business.utils;
+package com.econetwireless.epay.business.config;
 
-
-import com.econetwireless.epay.business.config.IntegrationsConfig;
 import com.econetwireless.in.webservice.IntelligentNetworkService;
 import org.junit.After;
 import org.junit.Before;
@@ -14,10 +12,9 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
-public class IntegrationConfigBeanCreationTest {
+public class IntegrationsConfigTest {
     private static final String NAMESPACE_KEY = "configs.econetwebservice.ws.namespace";
     private static final String NAMESPACE_VALUE = "http://service.soap.in.econetwireless.com/";
     private static final String SERVICE_KEY = "configs.econetwebservice.ws.serviceName";

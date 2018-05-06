@@ -1,6 +1,5 @@
-package com.econetwireless.epay.business.utils;
+package com.econetwireless.epay.business.config;
 
-import com.econetwireless.epay.business.config.EpayBusinessConfig;
 import com.econetwireless.epay.business.services.api.CreditsService;
 import com.econetwireless.epay.business.services.api.EnquiriesService;
 import com.econetwireless.epay.business.services.api.PartnerCodeValidator;
@@ -10,9 +9,9 @@ import org.junit.Test;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
-public class EpayBusinessConfigBeanCreationTest {
+public class EpayBusinessConfigTest {
 
     private AnnotationConfigWebApplicationContext context;
 

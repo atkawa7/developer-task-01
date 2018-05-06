@@ -1,9 +1,6 @@
-package com.econetwireless.epay.business.utils;
+package com.econetwireless.in.webservice;
 
-import com.econetwireless.in.webservice.BalanceResponse;
-import com.econetwireless.in.webservice.CreditRequest;
-import com.econetwireless.in.webservice.CreditResponse;
-import com.econetwireless.in.webservice.IntelligentNetworkService;
+import com.econetwireless.epay.business.utils.TestUtils;
 import com.econetwireless.utils.enums.ResponseCode;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,13 +9,12 @@ import org.mockito.MockitoAnnotations;
 
 import static com.econetwireless.epay.business.utils.TestUtils.BALANCE;
 import static com.econetwireless.epay.business.utils.TestUtils.shouldBeSame;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 public class IntelligentNetworkServiceTest {
-
-
     @Mock
     private IntelligentNetworkService intelligentNetworkService;
 
@@ -86,4 +82,5 @@ public class IntelligentNetworkServiceTest {
         CreditResponse actual = intelligentNetworkService.creditSubscriberAccount(creditRequest);
         shouldBeSame(expected, actual);
     }
+
 }

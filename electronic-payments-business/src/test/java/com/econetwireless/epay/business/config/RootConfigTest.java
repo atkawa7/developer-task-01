@@ -1,17 +1,13 @@
-package com.econetwireless.epay.business.utils;
+package com.econetwireless.epay.business.config;
 
-import com.econetwireless.epay.business.config.EpayBusinessConfig;
-import com.econetwireless.epay.business.config.IntegrationsConfig;
-import com.econetwireless.epay.business.config.RootConfig;
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
-public class RootConfigBeanCreationTest {
-
+public class RootConfigTest {
     private AnnotationConfigWebApplicationContext context;
 
     @After

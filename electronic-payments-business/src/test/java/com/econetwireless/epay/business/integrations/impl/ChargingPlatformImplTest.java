@@ -1,7 +1,7 @@
-package com.econetwireless.epay.business.utils;
+package com.econetwireless.epay.business.integrations.impl;
 
 import com.econetwireless.epay.business.integrations.api.ChargingPlatform;
-import com.econetwireless.epay.business.integrations.impl.ChargingPlatformImpl;
+import com.econetwireless.epay.business.utils.TestUtils;
 import com.econetwireless.in.webservice.CreditRequest;
 import com.econetwireless.in.webservice.IntelligentNetworkService;
 import com.econetwireless.utils.enums.ResponseCode;
@@ -15,12 +15,12 @@ import org.mockito.MockitoAnnotations;
 
 import static com.econetwireless.epay.business.utils.TestUtils.BALANCE;
 import static com.econetwireless.epay.business.utils.TestUtils.shouldBeSame;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
-public class ChargingPlatformTest {
-
+public class ChargingPlatformImplTest {
     private ChargingPlatform platform;
 
     @Mock
