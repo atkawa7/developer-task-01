@@ -12,15 +12,30 @@ import org.apache.commons.lang3.StringUtils;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import java.util.Date;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class TestUtils {
     public static final Double BALANCE = 100.0;
+
+    public static List<SubscriberRequest> SUBSCRIBER_REQUESTS = new ArrayList<>();
+    static {
+        List<String> partners  = new ArrayList<>(Arrays.asList("A", "B", "C", "C", "D"));
+        partners.forEach((partner)->{
+            SubscriberRequest request = new SubscriberRequest();
+            request.setDateLastUpdated(new Date());
+            request.setDateCreated(new Date());
+            request.setId(new Random().nextLong());
+            request.setPartnerCode(partner);
+            request.setBalanceAfter(new Random().nextDouble());
+            request.setBalanceBefore(new Random().nextDouble());
+            request.setAmount(new Random().nextDouble());
+            SUBSCRIBER_REQUESTS.add(request);
+        });
+
+    }
 
     public static final Answer<RequestPartner> REQUEST_PARTNER_ANSWER = new Answer<RequestPartner>() {
         @Override
