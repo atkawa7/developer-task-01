@@ -9,7 +9,6 @@ import org.mockito.MockitoAnnotations;
 
 import static com.econetwireless.epay.business.utils.TestUtils.BALANCE;
 import static com.econetwireless.epay.business.utils.TestUtils.shouldBeSame;
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;

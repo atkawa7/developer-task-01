@@ -1,6 +1,7 @@
 package com.econetwireless.epay.business.services.impl;
 
 import com.econetwireless.epay.business.services.api.PartnerCodeValidator;
+import com.econetwireless.epay.business.utils.TestUtils;
 import com.econetwireless.epay.dao.requestpartner.api.RequestPartnerDao;
 import com.econetwireless.epay.domain.RequestPartner;
 import com.econetwireless.utils.execeptions.EpayException;
@@ -29,27 +30,9 @@ public class PartnerCodeValidatorImplTest {
     private PartnerCodeValidator partnerCodeValidator;
 
     @Before
-    public void setUp() throws Exception{
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        when(requestPartnerDao.findByCode(anyString())).then(new Answer<RequestPartner>() {
-            @Override
-            public RequestPartner answer(InvocationOnMock invocation) throws Throwable {
-                Object[] arguments = invocation.getArguments();
-                if (arguments != null && arguments.length > 0) {
-                    String partnerCode = (String) arguments[0];
-                    if (partnerCode != null) {
-                        RequestPartner partner = new RequestPartner();
-                        partner.setCode(partnerCode);
-                        partner.setName(UUID.randomUUID().toString());
-                        partner.setDescription("description");
-                        partner.setId(new Random().nextLong());
-                        return partner;
-                    }
-                    return null;
-                }
-                return null;
-            }
-        });
+        when(requestPartnerDao.findByCode(anyString())).then(TestUtils.REQUEST_PARTNER_ANSWER);
         partnerCodeValidator = new PartnerCodeValidatorImpl(requestPartnerDao);
     }
 
