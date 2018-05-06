@@ -33,7 +33,7 @@ public class EnquiriesServiceImplTest {
     }
 
     @Test
-    public void testNullPartnerCode(){
+    public void testNullPartnerCode() {
         AirtimeBalanceResponse actual = enquiriesService.enquire(null, null);
         assertNotNull(actual);
         assertEquals("Invalid request, missing partner code", actual.getNarrative());
@@ -42,7 +42,7 @@ public class EnquiriesServiceImplTest {
     }
 
     @Test
-    public void testNoneNullPartnerCode(){
+    public void testNoneNullPartnerCode() {
         AirtimeBalanceResponse actual = enquiriesService.enquire("Exa", null);
         assertNotNull(actual);
         assertEquals("Invalid request, missing mobile number", actual.getNarrative());
@@ -51,8 +51,8 @@ public class EnquiriesServiceImplTest {
     }
 
     @Test
-    public void testAllParamsNotNull(){
-        String constant  = "constant";
+    public void testAllParamsNotNull() {
+        String constant = "constant";
         AirtimeBalanceResponse actual = enquiriesService.enquire(constant, constant);
         assertNotNull(actual);
         assertEquals("Successful balance enquiry", actual.getNarrative());

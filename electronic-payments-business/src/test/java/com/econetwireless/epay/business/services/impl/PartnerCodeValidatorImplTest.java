@@ -3,7 +3,6 @@ package com.econetwireless.epay.business.services.impl;
 import com.econetwireless.epay.business.services.api.PartnerCodeValidator;
 import com.econetwireless.epay.business.utils.TestUtils;
 import com.econetwireless.epay.dao.requestpartner.api.RequestPartnerDao;
-import com.econetwireless.epay.domain.RequestPartner;
 import com.econetwireless.utils.execeptions.EpayException;
 import org.junit.Before;
 import org.junit.Rule;
@@ -11,11 +10,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-
-import java.util.Random;
-import java.util.UUID;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;

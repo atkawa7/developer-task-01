@@ -114,11 +114,11 @@ public class CreditsServiceImpl implements CreditsService {
         airtimeTopupResponse.setResponseCode(inCreditResponse.getResponseCode());
         airtimeTopupResponse.setNarrative(inCreditResponse.getNarrative());
 
-        String msisdn  = ObjectUtils.isEmpty(airtimeTopupRequest)?null:airtimeTopupRequest.getMsisdn();
+        String msisdn = ObjectUtils.isEmpty(airtimeTopupRequest) ? null : airtimeTopupRequest.getMsisdn();
         airtimeTopupResponse.setMsisdn(msisdn);
         airtimeTopupResponse.setBalance(inCreditResponse.getBalance());
 
-        if(!ObjectUtils.isEmpty(airtimeTopupRequest)){
+        if (!ObjectUtils.isEmpty(airtimeTopupRequest)) {
             LOGGER.info("Finished Airtime Credit :: Msisdn : {}, response code : {}", airtimeTopupRequest.getMsisdn(), inCreditResponse.getResponseCode());
         }
         return airtimeTopupResponse;

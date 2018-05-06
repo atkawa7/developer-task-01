@@ -20,24 +20,6 @@ import static org.junit.Assert.assertNotNull;
 
 public class TestUtils {
     public static final Double BALANCE = 100.0;
-
-    public static List<SubscriberRequest> SUBSCRIBER_REQUESTS = new ArrayList<>();
-    static {
-        List<String> partners  = new ArrayList<>(Arrays.asList("A", "B", "C", "C", "D"));
-        partners.forEach((partner)->{
-            SubscriberRequest request = new SubscriberRequest();
-            request.setDateLastUpdated(new Date());
-            request.setDateCreated(new Date());
-            request.setId(new Random().nextLong());
-            request.setPartnerCode(partner);
-            request.setBalanceAfter(new Random().nextDouble());
-            request.setBalanceBefore(new Random().nextDouble());
-            request.setAmount(new Random().nextDouble());
-            SUBSCRIBER_REQUESTS.add(request);
-        });
-
-    }
-
     public static final Answer<RequestPartner> REQUEST_PARTNER_ANSWER = new Answer<RequestPartner>() {
         @Override
         public RequestPartner answer(InvocationOnMock invocation) throws Throwable {
@@ -57,7 +39,6 @@ public class TestUtils {
             return null;
         }
     };
-
     public final static Answer<SubscriberRequest> SUBSCRIBER_REQUEST_ANSWER = new Answer<SubscriberRequest>() {
         @Override
         public SubscriberRequest answer(InvocationOnMock invocation) throws Throwable {
@@ -77,7 +58,6 @@ public class TestUtils {
             return null;
         }
     };
-
     public final static Answer<INBalanceResponse> SUCCESSFUL_BALANCE_ENQUIRY = new Answer<INBalanceResponse>() {
         @Override
         public INBalanceResponse answer(InvocationOnMock invocation) throws Throwable {
@@ -105,7 +85,6 @@ public class TestUtils {
             return null;
         }
     };
-
     public final static Answer<BalanceResponse> BALANCE_RESPONSE_ANSWER = new Answer<BalanceResponse>() {
         @Override
         public BalanceResponse answer(InvocationOnMock invocation) throws Throwable {
@@ -166,7 +145,7 @@ public class TestUtils {
                     creditResponse.setNarrative("Invalid request, empty credit request");
                     return creditResponse;
                 }
-                if(StringUtils.equalsIgnoreCase(creditRequest.getMsisdn(), "SHOULD_SEND_NULL_STATUS")){
+                if (StringUtils.equalsIgnoreCase(creditRequest.getMsisdn(), "SHOULD_SEND_NULL_STATUS")) {
                     creditResponse.setResponseCode(null);
                     creditResponse.setNarrative("Invalid request, empty credit request");
                     return creditResponse;
@@ -181,6 +160,23 @@ public class TestUtils {
             return null;
         }
     };
+    public static List<SubscriberRequest> SUBSCRIBER_REQUESTS = new ArrayList<>();
+
+    static {
+        List<String> partners = new ArrayList<>(Arrays.asList("A", "B", "C", "C", "D"));
+        partners.forEach((partner) -> {
+            SubscriberRequest request = new SubscriberRequest();
+            request.setDateLastUpdated(new Date());
+            request.setDateCreated(new Date());
+            request.setId(new Random().nextLong());
+            request.setPartnerCode(partner);
+            request.setBalanceAfter(new Random().nextDouble());
+            request.setBalanceBefore(new Random().nextDouble());
+            request.setAmount(new Random().nextDouble());
+            SUBSCRIBER_REQUESTS.add(request);
+        });
+
+    }
 
     public static void shouldBeSame(BalanceResponse expected, BalanceResponse actual) {
         assertNotNull(expected);

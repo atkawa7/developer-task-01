@@ -24,7 +24,7 @@ public class IntegrationsConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(IntegrationsConfig.class);
 
     @Autowired
-    private  Environment env;
+    private Environment env;
 
 
     @Bean

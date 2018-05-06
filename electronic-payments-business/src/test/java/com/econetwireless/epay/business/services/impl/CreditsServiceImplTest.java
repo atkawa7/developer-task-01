@@ -13,6 +13,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static junit.framework.TestCase.assertNull;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
@@ -37,18 +39,23 @@ public class CreditsServiceImplTest {
     @Test
     public void testNullTopUpRequest() {
         AirtimeTopupResponse topupResponse = creditsService.credit(null);
-        System.out.println(topupResponse.toString());
+        assertNotNull(topupResponse);
+        assertNull(topupResponse.getMsisdn());
     }
 
     @Test
     public void testNoneNullTopUpRequest() {
         AirtimeTopupResponse topupResponse = creditsService.credit(new AirtimeTopupRequest());
+        assertNotNull(topupResponse);
+        assertNull(topupResponse.getMsisdn());
     }
+
     @Test
     public void testNoneNullTopUpRequestWithMsiSdnNull() {
         AirtimeTopupRequest request = new AirtimeTopupRequest();
         request.setMsisdn("SHOULD_SEND_NULL_STATUS");
         AirtimeTopupResponse topupResponse = creditsService.credit(request);
+        assertNotNull(topupResponse);
     }
 
 }
