@@ -48,7 +48,7 @@ public class EnquiriesServiceImpl implements EnquiriesService {
     }
 
     private static void changeSubscriberStateOnBalanceEnquiry(final SubscriberRequest subscriberRequest, final INBalanceResponse inBalanceResponse) {
-        final boolean isSuccessfulResponse = ResponseCode.SUCCESS.getCode().equalsIgnoreCase(inBalanceResponse.getResponseCode());
+        final boolean isSuccessfulResponse = inBalanceResponse.getResponseCode()!=null&&ResponseCode.SUCCESS.getCode().equalsIgnoreCase(inBalanceResponse.getResponseCode());
         if(!isSuccessfulResponse) {
             subscriberRequest.setStatus(SystemConstants.STATUS_FAILED);
         } else {
