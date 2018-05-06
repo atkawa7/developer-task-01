@@ -7,6 +7,7 @@ import com.econetwireless.in.webservice.CreditRequest;
 import com.econetwireless.in.webservice.CreditResponse;
 import com.econetwireless.utils.enums.ResponseCode;
 import com.econetwireless.utils.pojo.INBalanceResponse;
+import com.econetwireless.utils.pojo.INCreditRequest;
 import com.econetwireless.utils.pojo.INCreditResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.mockito.invocation.InvocationOnMock;
@@ -144,6 +145,33 @@ public class TestUtils {
                     creditResponse.setNarrative("Invalid request, empty credit request");
                     return creditResponse;
                 }
+                creditResponse.setMsisdn(creditRequest.getMsisdn());
+                creditResponse.setBalance(creditRequest.getAmount() + BALANCE);
+                creditResponse.setNarrative("Successful credit request");
+                creditResponse.setResponseCode(ResponseCode.SUCCESS.getCode());
+                return creditResponse;
+            }
+            return null;
+        }
+    };
+    public static final Answer<INCreditResponse> SUCCESSFUL_CREDIT_REQUEST = new Answer<INCreditResponse>() {
+        @Override
+        public INCreditResponse answer(InvocationOnMock invocation) throws Throwable {
+            Object[] arguments = invocation.getArguments();
+            if (arguments != null && arguments.length > 0) {
+                INCreditRequest creditRequest = (INCreditRequest) arguments[0];
+                final INCreditResponse creditResponse = new INCreditResponse();
+                if (creditRequest == null) {
+                    creditResponse.setResponseCode(ResponseCode.FAILED.getCode());
+                    creditResponse.setNarrative("Invalid request, empty credit request");
+                    return creditResponse;
+                }
+                if(StringUtils.equalsIgnoreCase(creditRequest.getMsisdn(), "SHOULD_SEND_NULL_STATUS")){
+                    creditResponse.setResponseCode(null);
+                    creditResponse.setNarrative("Invalid request, empty credit request");
+                    return creditResponse;
+                }
+
                 creditResponse.setMsisdn(creditRequest.getMsisdn());
                 creditResponse.setBalance(creditRequest.getAmount() + BALANCE);
                 creditResponse.setNarrative("Successful credit request");

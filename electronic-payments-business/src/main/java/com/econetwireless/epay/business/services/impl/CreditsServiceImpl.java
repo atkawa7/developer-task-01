@@ -13,6 +13,7 @@ import com.econetwireless.utils.pojo.INCreditResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 /**
  * Created by tnyamakura on 17/3/2017.
@@ -45,19 +46,41 @@ public class CreditsServiceImpl implements CreditsService {
     private static SubscriberRequest populateSubscriberRequest(final AirtimeTopupRequest airtimeTopupRequest) {
         final SubscriberRequest subscriberRequest = new SubscriberRequest();
         subscriberRequest.setRequestType(SystemConstants.REQUEST_TYPE_AIRTIME_TOPUP);
-        subscriberRequest.setPartnerCode(airtimeTopupRequest.getPartnerCode());
-        subscriberRequest.setMsisdn(airtimeTopupRequest.getMsisdn());
-        subscriberRequest.setReference(airtimeTopupRequest.getReferenceNumber());
-        subscriberRequest.setAmount(airtimeTopupRequest.getAmount());
+        String partnerCode = null;
+        String msisdn = null;
+        String referenceNumber = null;
+        double amount = 0;
+
+        if (!ObjectUtils.isEmpty(airtimeTopupRequest)) {
+            partnerCode = airtimeTopupRequest.getPartnerCode();
+            msisdn = airtimeTopupRequest.getMsisdn();
+            referenceNumber = airtimeTopupRequest.getReferenceNumber();
+            amount = airtimeTopupRequest.getAmount();
+        }
+        subscriberRequest.setPartnerCode(partnerCode);
+        subscriberRequest.setMsisdn(msisdn);
+        subscriberRequest.setReference(referenceNumber);
+        subscriberRequest.setAmount(amount);
         return subscriberRequest;
     }
 
     private static INCreditRequest populate(final AirtimeTopupRequest airtimeTopupRequest) {
         final INCreditRequest inCreditRequest = new INCreditRequest();
-        inCreditRequest.setAmount(airtimeTopupRequest.getAmount());
-        inCreditRequest.setMsisdn(airtimeTopupRequest.getMsisdn());
-        inCreditRequest.setPartnerCode(airtimeTopupRequest.getPartnerCode());
-        inCreditRequest.setReferenceNumber(airtimeTopupRequest.getReferenceNumber());
+        String partnerCode = null;
+        String msisdn = null;
+        String referenceNumber = null;
+        double amount = 0;
+
+        if (!ObjectUtils.isEmpty(airtimeTopupRequest)) {
+            partnerCode = airtimeTopupRequest.getPartnerCode();
+            msisdn = airtimeTopupRequest.getMsisdn();
+            referenceNumber = airtimeTopupRequest.getReferenceNumber();
+            amount = airtimeTopupRequest.getAmount();
+        }
+        inCreditRequest.setAmount(amount);
+        inCreditRequest.setMsisdn(msisdn);
+        inCreditRequest.setPartnerCode(partnerCode);
+        inCreditRequest.setReferenceNumber(referenceNumber);
         return inCreditRequest;
     }
 
@@ -90,10 +113,14 @@ public class CreditsServiceImpl implements CreditsService {
         final AirtimeTopupResponse airtimeTopupResponse = new AirtimeTopupResponse();
         airtimeTopupResponse.setResponseCode(inCreditResponse.getResponseCode());
         airtimeTopupResponse.setNarrative(inCreditResponse.getNarrative());
-        airtimeTopupResponse.setMsisdn(airtimeTopupRequest.getMsisdn());
+
+        String msisdn  = ObjectUtils.isEmpty(airtimeTopupRequest)?null:airtimeTopupRequest.getMsisdn();
+        airtimeTopupResponse.setMsisdn(msisdn);
         airtimeTopupResponse.setBalance(inCreditResponse.getBalance());
 
-        LOGGER.info("Finished Airtime Credit :: Msisdn : {}, response code : {}", airtimeTopupRequest.getMsisdn(), inCreditResponse.getResponseCode());
+        if(!ObjectUtils.isEmpty(airtimeTopupRequest)){
+            LOGGER.info("Finished Airtime Credit :: Msisdn : {}, response code : {}", airtimeTopupRequest.getMsisdn(), inCreditResponse.getResponseCode());
+        }
         return airtimeTopupResponse;
     }
 
